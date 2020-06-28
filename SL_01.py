@@ -13,8 +13,12 @@ from tensorflow.keras.optimizers import RMSprop
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from PIL import Image, ImageOps
 import numpy as np
+import urllib.request
+import zipfile
 
-
+url = 'https://storage.googleapis.com/ml1000/mymodel.h5'
+urllib.request.urlretrieve(url, 'mymodel.h5')
+local = 'mymodel.h5'
 
 def teachable_machine_classification(img, file):
     # Disable scientific notation for clarity
@@ -70,7 +74,8 @@ if page == "Image Classfication":
         st.image(image, caption='Uploaded Dog-Cat.', use_column_width=True)
         st.write("")
         st.write("Classifying...")
-        label = teachable_machine_classification(image, 'C:\BPC_DOCS\IUB\Tensorflow\mymodel.h5')
+        #label = teachable_machine_classification(image, 'model/mymodel.h5')
+        label = teachable_machine_classification(image, local)
         if label[0] >0.5:
             st.write("This is dog")
         else:
